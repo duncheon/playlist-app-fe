@@ -20,9 +20,10 @@ const PlayLists = () => {
     };
     if (token) {
       try {
-        getPlaylist(0, null, token).then((userPlaylists) =>
-          setPlaylists(userPlaylists)
-        );
+        getPlaylist(0, null, token).then((userPlaylists) => {
+          console.log(userPlaylists);
+          setPlaylists(userPlaylists);
+        });
       } catch (err) {
         console.log(err);
         dispatch(clearUser());
