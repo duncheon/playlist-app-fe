@@ -2,13 +2,18 @@ import { SlOptionsVertical } from 'react-icons/sl';
 import useWindowDimensions from '../../../../hooks/useWindowDimensions';
 import screenUtil from '../../../../utils/screenUtil';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeCurrentSelected } from '../../../../redux/playlistReducer';
 
 const SongBox = ({ song, idx }) => {
   const { width, height } = useWindowDimensions();
   const [isBeingHover, setIsBeingHover] = useState(false);
   const { currentSelected } = useSelector((state) => state.playlist);
-  // shouldnt be like this
+  const dispatch = useDispatch();
+  const handleSongClick = (idx) => {
+    dispatch(changeCurrentSelected(idx));
+  };
+  // shouldnt be like this. Update this function later
   const truncateText = (text) => {
     if (width <= 350 && text.length > 30) {
       return text.slice(0, 30) + '...';
@@ -39,6 +44,7 @@ const SongBox = ({ song, idx }) => {
       }`}
       onMouseEnter={() => setIsBeingHover(true)}
       onMouseLeave={() => setIsBeingHover(false)}
+      onClick={() => handleSongClick(idx)}
     >
       <div className="col-span-1">
         <img

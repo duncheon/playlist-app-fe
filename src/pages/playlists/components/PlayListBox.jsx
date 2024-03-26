@@ -7,13 +7,13 @@ const PlayListBox = ({ playlist, idx, lastIdx }) => {
   };
   return (
     <Link
-      className={`hover:bg-hoverblack block w-full lg:w-[25%] rounded`}
+      className={`hover:bg-hoverblack block w-[95%] rounded`}
       to={`/app/playlists/${playlist.id}`}
     >
       <div
-        className={`w-full px-3 flex flex-row lg:flex-col py-1.5 lg:mb-3 relative`}
+        className={`w-full pr-3 flex flex-row lg:flex-col py-1.5 lg:px-3 lg:mb-3 relative`}
       >
-        <div className="w-[200px] lg:w-full aspect-video">
+        <div className="min-w-[175px] lg:w-full aspect-video mt-2">
           <img className="rounded-2xl border-2 h-full w-full"></img>
         </div>
         <div className="grow relative lg:mt-2">
@@ -24,10 +24,10 @@ const PlayListBox = ({ playlist, idx, lastIdx }) => {
             {playlist.description}
           </p>
           <button
-            className="absolute w-[30px] top-0 lg:right-0 right-[10px] lg:grid text-[0.65rem] sm:text-[0.7rem] p-0 flex justify-center bg-baseblack rounded-full aspect-square items-center"
+            className="absolute p-2 top-0 lg:right-0 right-[-5px] lg:grid text-[0.65rem] sm:text-[0.7rem] flex justify-center bg-baseblack rounded-full aspect-square items-center"
             onClick={(e) => handleSubMenuClick(e)}
           >
-            <SlOptionsVertical color={'white'}></SlOptionsVertical>
+            <SlOptionsVertical color={'white'} size={15}></SlOptionsVertical>
           </button>
         </div>
       </div>

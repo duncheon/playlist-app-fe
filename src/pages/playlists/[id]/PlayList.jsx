@@ -1,18 +1,22 @@
+import { useRef, useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import screenUtil from '../../../utils/screenUtil';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
+
+import { initialPlaylistLoad } from '../../../redux/playlistReducer';
+
 import { FaArrowLeft } from 'react-icons/fa';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { AiOutlineMenuFold } from 'react-icons/ai';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import useWindowDimensions from '../../../hooks/useWindowDimensions';
-import screenUtil from '../../../utils/screenUtil';
+
 import PlayListMenu from './components/PlayListMenu';
-import { useEffect, useRef, useState } from 'react';
 import SongPlayer from './components/SongPlayer';
 import UserMenu from './components/UserMenu';
 import useSideBar from '../../../hooks/useSideBar';
-import { useNavigate, useParams } from 'react-router-dom';
 import NewSongModal from './components/Modal/NewSongModal';
-import { useDispatch } from 'react-redux';
-import { initialPlaylistLoad } from '../../../redux/playlistReducer';
 
 const PlayList = () => {
   const navigate = useNavigate();
@@ -21,12 +25,11 @@ const PlayList = () => {
   const userMenuToggleBtnRef = useRef(null);
   const { width } = useWindowDimensions();
 
-  const [displayMenu, setDisplayMenu] = useState(false);
+  const [displayMenu, setDisplayMenu] = useState(true);
   const [displayNewSongModal, setDisplayNewSongModal] = useState(false);
   const [isHidden, setIsHidden] = useSideBar(userMenuRef, userMenuToggleBtnRef);
 
   const { id } = useParams();
-
   useEffect(() => {
     try {
       dispatch(initialPlaylistLoad(id));
@@ -34,7 +37,6 @@ const PlayList = () => {
       console.log(err);
     }
   }, []);
-
   return (
     <div className="w-[100vw] bg-baseblack h-full overflow-y-scroll lg:overflow-hidden">
       <NewSongModal

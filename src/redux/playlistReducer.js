@@ -10,13 +10,14 @@ const initialState = {
     description: '',
   },
   currentSelected: 0,
-  songList: [],
+  songList: null,
   playModes: {
     shuffle: false,
     autoPlay: true,
   },
   isFetchingSongList: false,
   isPlaying: false,
+  total: 0,
 };
 
 const playlistSlice = createSlice({
@@ -37,11 +38,18 @@ const playlistSlice = createSlice({
       return { ...state, playlistData: action.payload };
     },
     updateSongList: (state, action) => {
-      return { ...state, songList: action.payload };
+      return {
+        ...state,
+        songList: action.payload.songList,
+        total: action.payload.totalRecords,
+      };
     },
     addSong: (state, action) => {
       const newSongList = [...state.songList, action.payload];
       return { ...state, songList: newSongList };
+    },
+    changeCurrentSelected: (state, action) => {
+      return { ...state, currentSelected: action.payload };
     },
     nextSong: (state, action) => {
       let nextInPlay = state.currentSelected;
@@ -108,7 +116,7 @@ export const initialPlaylistLoad = (id) => {
 
       const token = window.localStorage.getItem('access-token');
       const result = await getSongList(id, 0, null, token);
-      dispatch(updateSongList(result.songList));
+      dispatch(updateSongList(result));
 
       const newPlaylistData = {
         id: id,
@@ -123,7 +131,36 @@ export const initialPlaylistLoad = (id) => {
     } catch (err) {
       console.log(err);
       dispatch(setIsFetching(false));
+      dispatch(updateSongList([]));
     }
+  };
+};
+
+export const appendSongLists = (playlist) => {
+  return async (dispatch) => {
+    const currentSongList = playlist.songList;
+    try {
+      dispatch(setIsFetching(true));
+      if (playlist.total !== playlist.songList.length) {
+        console.log('request');
+        const token = window.localStorage.getItem('access-token');
+        const result = await songServices.appendSongsOfPlaylist(
+          playlist,
+          null,
+          token
+        );
+
+        dispatch(
+          updateSongList({
+            songList: [...currentSongList, ...result.songList],
+            totalRecords: result.totalRecords,
+          })
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(setIsFetching(false));
   };
 };
 
@@ -138,6 +175,7 @@ export const {
   updatePlaylistData,
   setIsFetching,
   updatePlayModes,
+  changeCurrentSelected,
 } = playlistSlice.actions;
 
 export default playlistSlice.reducer;

@@ -21,6 +21,10 @@ const SongPlayer = ({ isSmallScreen }) => {
     }
   };
 
+  if (!songList) {
+    return null;
+  }
+
   if (isSmallScreen)
     return (
       <div className="mt-[60px] rounded w-[90%] aspect-video">

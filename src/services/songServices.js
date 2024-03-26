@@ -11,10 +11,22 @@ const headerConf = (token) => {
   };
 };
 
-const getSongsOfPlaylist = async (playlistId, start, end, token) => {
+const getSongsOfPlaylist = async (playlistId, start, total, token) => {
   const result = await axios.get(`${baseURL}`, {
     ...headerConf(token),
-    params: { playlistId, start, end },
+    params: { playlistId, start, total },
+  });
+
+  return result.data;
+};
+
+const appendSongsOfPlaylist = async (playlist, end, token) => {
+  const { id: playlistId } = playlist.playlistData;
+
+  const songList = playlist.songList;
+  const result = await axios.get(`${baseURL}`, {
+    ...headerConf(token),
+    params: { playlistId, start: songList.length, end },
   });
 
   return result.data;
@@ -22,6 +34,7 @@ const getSongsOfPlaylist = async (playlistId, start, end, token) => {
 
 const songServices = {
   getSongsOfPlaylist,
+  appendSongsOfPlaylist,
 };
 
 export default songServices;

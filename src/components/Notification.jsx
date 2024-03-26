@@ -29,7 +29,6 @@ const Notification = () => {
     return state.notification;
   });
 
-  console.log(notification);
   const dispatch = useDispatch();
   useEffect(() => {
     if (notification.isShowing) {

@@ -31,7 +31,6 @@ const SignIn = () => {
   const [password, setPassword] = useState(['']);
   const [isFormLoading, setIsFormLoading] = useState(false);
 
-  console.log(config.ENV);
   const dispatch = useDispatch();
   const handleLogin = async (e) => {
     e.preventDefault();

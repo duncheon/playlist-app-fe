@@ -21,7 +21,6 @@ const PlayLists = () => {
     if (token) {
       try {
         getPlaylist(0, null, token).then((userPlaylists) => {
-          console.log(userPlaylists);
           setPlaylists(userPlaylists);
         });
       } catch (err) {
@@ -39,14 +38,11 @@ const PlayLists = () => {
         setPlaylists={setPlaylists}
         playlists={playlists}
       ></NewPlaylistModal>
-      <div className="w-full h-[120px] grid grid-rows-[65%_1fr]">
+      <div className="w-full grid grid-rows-[65%_1fr] px-2">
         <UserContainer></UserContainer>
         <MetaButtons setDisplayModal={setDisplayModal}></MetaButtons>
       </div>
-      <PlayListsContainer
-        playlists={playlists}
-        height={'[calc(100vh-120px)]'}
-      ></PlayListsContainer>
+      <PlayListsContainer playlists={playlists}></PlayListsContainer>
     </div>
   );
 };
